@@ -1,1 +1,1 @@
-import models
+from blog_post import blog_post

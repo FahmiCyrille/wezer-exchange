@@ -3,17 +3,16 @@
     <t t-name="website_last_articles_snippet.liste_articles">
             <t t-foreach='posts'  t-as='p'>
                 <div class='col-md-4'>
-                    <a t-att-href="'/page/' + p.slug ">
-                        <h2>
-                            <span t-if='p.website_meta_title != false' t-esc='p.website_meta_title' />
-                            <span t-if='p.website_meta_title == false' t-esc='p.name' />
-                        </h2>             
+                    <a t-att-href="p.slug">
                         <span class="image">
-                            <span t-if="p.website_meta_image" >
-                                <img t-att-src="'/web/binary/image?model=ir.ui.view&amp;id=' + p.id + '&amp;field=website_meta_image'"/>
+                            <span t-if="p.background_image" >
+                                <img t-att-src="p.background_image"/>
                             </span>
                         </span>
-                        <span t-if='p.website_meta_description != false' t-esc="p.website_meta_description"/>
+                        <h2>
+                            <span t-esc='p.name' />
+                        </h2>             
+                        <span t-if='p.subtitle != false' t-esc="p.subtitle"/>
                     </a>
                 </div>
             </t>

@@ -227,7 +227,7 @@ class MarketplaceAnnouncement(orm.Model):
             'announcement_id', 'tag_id', 'Tags'
         ),
         'partner_id': fields.many2one(
-            'res.partner', 'Who', required=True, readonly=True
+            'res.partner', 'Who', required=True, readonly=False
         ),
         'infinite_qty': fields.boolean('Unlimited'),
         'quantity': fields.float(
