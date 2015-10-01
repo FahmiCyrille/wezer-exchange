@@ -203,7 +203,7 @@
                                                 </select>
                                             </div>
                                         </t>
-                                        <div class="col-xs-12">
+                                        <div class="col-xs-12  hide-option">
                                             <select disabled="disabled" class="selectpicker form-control">
                                                 <t t-if="bool(announcement.country_id) == False">
                                                     <option value="None" selected="selected"></option>                      
