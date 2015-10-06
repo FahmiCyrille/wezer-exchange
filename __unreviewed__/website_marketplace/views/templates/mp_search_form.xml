@@ -129,7 +129,7 @@
         <template id="mp_minisearch_form" name="Marketplace Minified Search">
             <!-- START: Search Jumbotron -->
             <form id="searchform" class="form" method="GET" action="/marketplace/search">
-                <section class="jumbotron pt32 pb16 mb0">
+                <section class="wezer-homepage">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-2 pt8">
