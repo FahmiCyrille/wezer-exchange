@@ -245,7 +245,7 @@ msgstr "Payée"
 #: code:addons/website_membership_users/controllers/profile.py:571
 #, python-format
 msgid "Please read terms and make decision"
-msgstr "S’il vous plait, lisez les conditions et prennez votre décision"
+msgstr "Oui j'ai lu et j'accepte les termes et conditions d'utilisation"
 
 #. module: website_membership_users
 #: view:website:website_membership_users.profile_edit_general
@@ -277,7 +277,7 @@ msgstr "Information du profil"
 #. module: website_membership_users
 #: view:website:website_membership_users.profile_edit
 msgid "Save"
-msgstr "Sauver"
+msgstr "Enregistrer"
 
 #. module: website_membership_users
 #: view:website:website_membership_users.member_list_view
