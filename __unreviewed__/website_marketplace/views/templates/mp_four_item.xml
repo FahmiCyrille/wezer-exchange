@@ -6,7 +6,8 @@
                 <t t-foreach="resultglobal" t-as="item">
                     <div class="col-md-3 modWants" t-if="resultat_choix == 'bigpicture' or resultat_choix == 'liste' ">
                         <p class='titre_mod' t-esc='item.type' />
-                        <div class="col-md-11 thumbnail espace_10 bigpicture">
+
+                        <div class="col-md-11 thumbnail espace_10 bigpicture want-announce" t-if="item.type == 'want'">
                             <div t-field="item.picture" t-field-options='{"widget": "image", "class": "img img-responsive" }'/>
                             <t t-if="request.session.uid">
                                <p class="text-muted mt8"><span t-esc="item.partner_id.name"/></p>
@@ -42,6 +43,44 @@
                                 <span class="badge" t-esc="len(item.proposition_ids)" /> replies
                             </p>
                         </div>
+
+                        <div class="col-md-11 thumbnail espace_10 bigpicture offer-announce" t-if="item.type == 'offer'">
+                            <div t-field="item.picture" t-field-options='{"widget": "image", "class": "img img-responsive" }'/>
+                            <t t-if="request.session.uid">
+                               <p class="text-muted mt8"><span t-esc="item.partner_id.name"/></p>
+                            </t>
+                            <h3 class="mt0">
+                                <a t-attf-href="/marketplace/announcement_detail/#{item.id}">
+                                    <span t-field="item.name"/>
+                                    <t t-if="item.state == 'draft'">
+                                         [Draft]
+                                    </t>
+                                </a>
+                            </h3>
+                            <p class="text-justify-search" t-field="item.description" style="max-height:150px; min-height:150px"/>
+                            <p class="text-muted text-right">
+                                <t t-foreach="item.currency_ids" t-as="price">
+                                    <span class="label label-default">
+                                        <span t-field="price.price_unit"/>
+                                        <span t-esc="price.currency_id.name"/>
+                                    </span>
+                                </t>
+                                <t t-if="item.quantity_available">
+                                    <span class="label label-default">
+                                        <span t-field="item.quantity_available"/>
+                                        <span t-esc="item.uom_id.name"/>
+                                    </span>
+                                </t>
+                                <t t-if="item.expiration_date">
+                                    <span class="label label-default" t-field="item.expiration_date"/>
+                                </t>
+                                <t t-if="item.city">
+                                    <span class="label label-default" t-field="item.city"/>
+                                </t><br />
+                                <span class="badge" t-esc="len(item.proposition_ids)" /> replies
+                            </p>
+                        </div>
+
                         <div class="col-md-1" />
                     </div>
                     <!-- si le choix est la liste -->

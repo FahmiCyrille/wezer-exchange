@@ -19,14 +19,14 @@
 ##############################################################################
 
 {
-    'name': 'Odoo for Communities',
+    'name': 'Wezer Exchange',
     'version': '1.0',
-    'category': 'Community',
-    'author': 'Yannick Buron',
+    'category': 'Wezer module',
+    'author': 'Yannick Buron for Valeureux',
     'license': 'AGPL-3',
     'description': """
-Odoo for Communities
-====================
+Wezer Exchange
+==============
 
 Use your Odoo to manage communities.
 ------------------------------------
@@ -34,7 +34,7 @@ Use your Odoo to manage communities.
     * Manage community access from user simplified form
     * Add a custom form to install module for managing community
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'https://github.com/valeureux/wezer-exchange',
     'depends': [
         'base',
         'base_community',

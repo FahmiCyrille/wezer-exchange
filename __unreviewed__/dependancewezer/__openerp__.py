@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Dependance Wezer",
+    'name': "Wezer Exchange website dependances",
 
     'summary': """
-        Installation des dependances pour wezer 
+        Installation of website front for wezer modules
     """,
 
     'description': """
-        Installation des dependances pour wezer
+        Installation of website front for wezer modules
     """,
 
-    'author': "Yann LE GOFF",
+    'author': "Yann LE GOFF for Valeureux.org",
     'website': "http://www.atout-serenite.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
     # for the full list
-    'category': 'Uncategorized',
+    'category': 'Wezer module',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
