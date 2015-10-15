@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron
-#    Copyright 2013 Yannick Buron
+#    Author: Yannick Buron and Valeureux
+#    Copyright 2013 Yannick Buron and Valeureux
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@
     'name': 'Wallet French localization',
     'version': '1.0',
     'category': 'Accounting',
-    'author': 'Yannick Buron',
+    'author': 'Yannick Buron and Valeureux',
     'license': 'AGPL-3',
     'description': """
 Wallet french localization

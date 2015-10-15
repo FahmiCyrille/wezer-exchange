@@ -10,7 +10,7 @@
         Installation of website front for wezer modules
     """,
 
-    'author': "Yann LE GOFF for Valeureux.org",
+    'author': "Yann LE GOFF ",
     'website': "http://www.wezer.org",
 
     # Categories can be used to filter modules in modules listing

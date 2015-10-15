@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron for Valeureux
+#    Author: Yannick Buron and Valeureux for Valeureux
 #    Copyright Valeureux.org and Valeureux
 #    Check : wezer.org and valeureux.org
 #

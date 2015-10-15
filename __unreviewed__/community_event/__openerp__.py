@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron for Valeureux.org Copyright Valeureux.org
+#    Author: Yannick Buron and Valeureux  Copyright Valeureux.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
     'name': 'Odoo for Communities - Event',
     'version': '1.0',
     'category': 'Community',
-    'author': 'Yannick Buron',
+    'author': 'Yannick Buron and Valeureux',
     'license': 'AGPL-3',
     'description': """
 Odoo for Communities - Event
