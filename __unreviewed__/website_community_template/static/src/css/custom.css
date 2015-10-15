@@ -159,9 +159,13 @@ z-index:100;
 }
 
 .want-announce {
-    background-color: #71ab3f
+   /* background-color: #71ab3f; */
+    background-color: rgba(113, 171, 63, 0.40);
+    opacity: 40
 }
 
 .offer-announce {
-    background-color: #f02abe
+    /* background-color: #f02abe; */
+    background-color: rgba(240, 42, 190, 0.40);
+    opacity: 40
 }
