@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron. Copyright Yannick Buron
+#    Author: Yannick Buron for Valeureux.org Copyright Valeureux.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ Framework module for managing vote inside Odoo
     * Provide abstract class for implementing vote in your own classes
     * Votes are visible in object marked as "evaluated"
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'http://www.wezer.org',
     'depends': [
         'base',
         'base_community',

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron. Copyright Yannick Buron
+#    Author: Yannick Buron for Valeureux.org Copyright Valeureux.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ Create two abstract model which can be used to manage recursive relations
     * Define configuration fields which can then be inherited and overridden
         by children and children models
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'http://www.wezer.org',
     'depends': ['base'],
     'data': ['security/ir.model.access.csv'],
     'installable': True,

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron. Copyright Yannick Buron
+#    Author: Yannick Buron for Valeureux.org Copyright Valeureux.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ Add users management in the association part of Odoo
     * Add "My account"
     * Add a membership moderator group
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'http://www.wezer.org',
     'depends': ['membership'],
     'data': [
         'security/membership_users_security.xml',

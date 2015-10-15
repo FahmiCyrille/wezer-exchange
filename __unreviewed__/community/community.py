@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Yannick Buron for Valeureux
-#    Copyright Yannick Buron and Valeureux
+#    Copyright Valeureux.org and Valeureux
 #    Check : wezer.org and valeureux.org
 #
 #

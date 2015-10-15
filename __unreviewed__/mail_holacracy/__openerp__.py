@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron. Copyright Yannick Buron
+#    Author: Yannick Buron for Valeureux.org Copyright Valeureux.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -40,7 +40,7 @@ This module improve the mail.group object in order to use him for holacracy
 
 http://en.wikipedia.org/wiki/Holacracy
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'http://www.wezer.org',
     'depends': [
         'base_community',
         'base_recursive_model',

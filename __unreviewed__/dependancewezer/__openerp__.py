@@ -11,7 +11,7 @@
     """,
 
     'author': "Yann LE GOFF for Valeureux.org",
-    'website': "http://www.atout-serenite.com",
+    'website': "http://www.wezer.org",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml

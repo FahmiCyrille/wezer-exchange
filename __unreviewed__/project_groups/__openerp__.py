@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Buron. Copyright Yannick Buron
+#    Author: Yannick Buron for Valeureux.org Copyright Valeureux.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ Integrate project with groups
     * Task can be assigned to role, member of the role
         automatically follow the task
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'http://www.wezer.org',
     'depends': [
         'mail_holacracy',
         'project_assignment',

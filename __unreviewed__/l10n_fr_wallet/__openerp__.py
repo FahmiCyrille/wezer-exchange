@@ -32,7 +32,7 @@ Wallet french localization
 Add accounts to manage wallet inside french chart account
 ---------------------------------------------------------
 """,
-    'website': 'https://github.com/YannickB/community-management',
+    'website': 'http://www.wezer.org',
     'depends': [
         'account_wallet',
         'l10n_fr',
