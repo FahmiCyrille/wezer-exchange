@@ -1,0 +1,628 @@
+<?xml version="1.0" ?>
+<openerp>
+   
+    <data noupdate="0">
+
+        <!--[1] Email template [Offer/Want is Open]-->
+        <record id="email_template_marketplace" model="email.template">
+            <field name="name">Offer/Want is Open</field>
+            <field name="email_from">${(object.partner_id.email or '')|safe}</field>
+            <field name="subject">${object.partner_id.company_id.name}-your first post in the marketplace, yeah!</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_announcement"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>${object.partner_id.company_id.name} your first post in the marketplace, yeah!</td>
+    		
+    	</tr>
+    </table>
+    <p>Congrats ${object.partner_id.name} !</p>
+	<p>You have succesfully published your first post: ${object.name}.</p>
+	<p>You may look at posts from other community members <a href='http://selaudonien.wezer.org/marketplace/'>link marketplace</a></p>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+        
+        <record id="action_email_notification_on_open_announcement" model="ir.actions.server">
+			<field name="name">Offer/Want is Open</field>
+			<field name="model_id" ref="marketplace.model_marketplace_announcement"/>
+			<field name="condition">object.state=='open'</field>
+			<field name="sequence">6</field>
+			<field name="type">ir.actions.server</field>
+			<field name="state">email</field>
+			<field name="template_id" ref="email_template_marketplace"/>
+		</record>
+		
+		<record id="rule_email_notification_to_open_offer" model="base.action.rule">
+			<field name="name">Offer/Want is Open</field>
+			<field name="model_id" ref="marketplace.model_marketplace_announcement"/>
+			<field name="sequence">0</field>
+			<field name="kind">on_write</field>
+			<field name="server_action_ids" eval="[(6,0,[ref('action_email_notification_on_open_announcement')])]"/>
+		</record>
+
+
+		<!--[2] Email template & cron [Published Announcement for type want and offer]-->
+        <record forcecreate="True" id="ir_cron_published_announcement_action" model="ir.cron">
+            <field name="name">Published Post Email Notification Cron</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'marketplace.announcement'" name="model"/>
+            <field eval="'send_published_announcement_mail'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+		
+        <record id="email_template_published_announcement" model="email.template">
+            <field name="name">Published Post Email Template</field>
+            <field name="email_from">${(object.partner_id.email or '')|safe}</field>
+            <field name="subject">${object.partner_id.company_id.name or ''} PSome posts for this month!</field>
+            <field name="partner_to">${object.create_uid.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_announcement"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.create_uid.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 50px;height: 50px;" />
+    		</td>
+    		<td></td>
+    		<td>${object.partner_id.company_id.name or ''} PSome posts for this month!</td>
+    	</tr>
+    </table>
+    <p>Hello ${object.create_uid.name} !</p>
+	<p>
+		Here are some new posts
+    </p>
+    <p>Offer Details:</p>
+    <table style="border:1px solid black;">
+		% for announcement in object.get_offer_published_announcement():
+			<tr>
+				<td style="border:1px solid black;">${announcement.name or ' '}</td>
+				<td style="border:1px solid black;">${announcement.description or ' '}</td>
+				<td style="border:1px solid black;">${announcement.partner_id.name or ' '}</td>
+				<td style="border:1px solid black;">
+					<img alt="LOGO" src="data:image/png;base64,${object.partner_id.image}" style="width: 50px;height: 30px;"/>
+				</td>
+			</tr>
+   		% endfor
+   	</table>
+   	
+   	<br/>
+   	<p>Want Details:</p>
+   	<table style="border:1px solid black;">
+		% for announcement in object.get_want_published_announcement():
+			<tr>
+				<td style="border:1px solid black;">${announcement.name or ' '}<br /></td>
+				<td style="border:1px solid black;">${announcement.description or ' '}</td>
+				<td style="border:1px solid black;">${announcement.partner_id.name or ' '}</td>
+				<td style="border:1px solid black;">
+					<img alt="LOGO" src="data:image/png;base64,${object.partner_id.image}" style="width: 50px;height: 30px;"/>
+				</td>
+			</tr>
+   		% endfor
+   	</table>
+   	<br/>
+   	<p>
+   		<sapn>Best wishes,<span><br/>
+   		<sapn>${object.create_uid.company_id.name}<span><br/>
+   		<sapn>Team<span><br/>
+   		<sapn>
+   			<img alt="LOGO" src="data:image/png;base64, ${object.create_uid.company_id.logo}" style="width:300px;height:80px;"/>
+   		<span>
+   	</p>
+   	
+   	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+		
+		
+		<!--[3] Email template [Proposition Open] "I receive a proposition for one of my posts"-->
+        <record id="email_template_marketplace_proposition_open" model="email.template">
+            <field name="name">Marketplace Proposition Open Email Template</field>
+            <field name="email_from">${(object.sender_id.email or '')|safe}</field>
+            <field name="subject">${object.sender_id.company_id.name} new comment on your post: ${object.announcement_id.name or ''}
+			</field>
+            <field name="partner_to">${object.receiver_id.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.receiver_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>${object.sender_id.company_id.name} new comment on your post: ${object.announcement_id.name or ''}.</td>
+    		
+    	</tr>
+    </table>
+    <p>Hello ${object.receiver_id.name} !</p>
+	<p>
+		You just received a new comment on your post ${object.announcement_id.name or ''}
+    </p>
+    <br/>
+    <table style="border:1px solid black;">
+    	<tr>
+    		<td style="border:1px solid black;">Member</td>
+    		<td style="border:1px solid black;">Price</td>
+    		<td style="border:1px solid black;">Quantity</td>
+    		<td style="border:1px solid black;">Description</td>
+    		<td style="border:1px solid black;">Author</td>
+    	</tr>
+    	<tr>
+    		<td style="border:1px solid black;">${object.receiver_id.name or ''}</td>
+    		<td style="border:1px solid black;">${object.currency_ids.price_unit or ''} ${object.currency_ids.currency_id.name or ''}</td>
+    		<td style="border:1px solid black;">${object.quantity or ''}</td>
+    		<td style="border:1px solid black;">${object.announcement_id.description or ''}</td>
+    		<td style="border:1px solid black;">${object.announcement_id.partner_id.name or ''}</td>
+    	</tr>
+    </table>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+        
+        
+        <record id="action_email_notification_proposition_open" model="ir.actions.server">
+			<field name="name">Marketplace Proposition Open Action</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="condition">object.state=='open'</field>
+			<field name="sequence">10</field>
+			<field name="type">ir.actions.server</field>
+			<field name="state">email</field>
+			<field name="template_id" ref="email_template_marketplace_proposition_open"/>
+		</record>
+		
+		<record id="rule_email_notification_proposition_open" model="base.action.rule">
+			<field name="name">Marketplace Proposition Open Rule</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="sequence">0</field>
+			<field name="kind">on_write</field>
+			<field name="server_action_ids" eval="[(6,0,[ref('action_email_notification_proposition_open')])]"/>
+		</record>
+		
+		
+		
+		<!--[4] Email template [On Changed the Proposition status] "My proposition changed of status (validated, rejected, …)"-->
+        <record id="email_template_marketplace_proposition" model="email.template">
+            <field name="name">Change The Status Of Marketplace Proposition Email Template</field>
+            <field name="email_from">${(object.sender_id.email or '')|safe}</field>
+            <field name="subject">${object.sender_id.company_id.name} - Your proposition is now ${object.state} for: ${object.announcement_id.name or ''}
+			</field>
+            <field name="partner_to">${object.receiver_id.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.receiver_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>Your proposition is now ${object.state} for: ${object.announcement_id.name}.</td>
+    		
+    	</tr>
+    </table>
+    <p>Hello ${object.receiver_id.name} !</p>
+	<p>
+		Your proposal to announcement ${object.announcement_id.name} has been ${object.state} by its author
+		${object.announcement_id.partner_id.name}.
+    </p>
+	<p> ${object.announcement_id.description} </p>
+	<p>I answer now! <a href='http://selaudonien.wezer.org/marketplace/'>link marketplace</a></p>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+
+        <record id="action_email_notification_on_change_proposition" model="ir.actions.server">
+			<field name="name">Change The Status Of Marketplace Proposition Action</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="condition">True</field>
+			<field name="sequence">7</field>
+			<field name="type">ir.actions.server</field>
+			<field name="state">email</field>
+			<field name="template_id" ref="email_template_marketplace_proposition"/>
+		</record>
+		
+		<record id="rule_email_notification_on_change_proposition" model="base.action.rule">
+			<field name="name">Change The Status Of Marketplace Proposition Rule</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="sequence">0</field>
+			<field name="kind">on_write</field>
+			<field name="server_action_ids" eval="[(6,0,[ref('action_email_notification_on_change_proposition')])]"/>
+		</record>
+		
+		
+		<!--[6] Email template [Proposition Invoiced] "I ask for payment and send the bill"-->
+        <record id="email_template_marketplace_proposition_invoiced" model="email.template">
+            <field name="name">Marketplace Proposition Invoiced Email Template</field>
+            <field name="email_from">${(object.sender_id.email or '')|safe}</field>
+            <field name="subject">${object.sender_id.company_id.name} - ${object.announcement_id.partner_id.name or ''} requests payment for your transaction: ${object.announcement_id.name or ''}
+			</field>
+            <field name="partner_to">${object.receiver_id.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.receiver_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>${object.sender_id.company_id.name} - ${object.announcement_id.partner_id.name or ''} requests payment for your transaction: ${object.announcement_id.name or ''}.</td>
+    		
+    	</tr>
+    </table>
+    <p>Hello ${object.receiver_id.name} !</p>
+	<p>
+		Settled the transaction announcement ${object.announcement_id.name or ''}
+    </p>
+
+	<p>I answer now! <a href='http://selaudonien.wezer.org/marketplace/'>link marketplace</a></p>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+        
+        
+        <record id="action_email_notification_proposition_invoiced" model="ir.actions.server">
+			<field name="name">Marketplace Proposition Invoiced Action</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="condition">object.state=='invoiced'</field>
+			<field name="sequence">9</field>
+			<field name="type">ir.actions.server</field>
+			<field name="state">email</field>
+			<field name="template_id" ref="email_template_marketplace_proposition_invoiced"/>
+		</record>
+		
+		<record id="rule_email_notification_proposition_invoiced" model="base.action.rule">
+			<field name="name">Marketplace Proposition Invoiced Rule</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="sequence">0</field>
+			<field name="kind">on_write</field>
+			<field name="server_action_ids" eval="[(6,0,[ref('action_email_notification_proposition_invoiced')])]"/>
+		</record>
+		
+		
+		<!--[7] Email template [Proposition Paid] "I made the payment (proposition with the status paid)"-->
+        <record id="email_template_marketplace_proposition_paid" model="email.template">
+            <field name="name">Marketplace Proposition Paid Email Template</field>
+            <field name="email_from">${(object.sender_id.email or '')|safe}</field>
+            <field name="subject">${object.sender_id.company_id.name} - has paid transaction: ${object.announcement_id.name or ''}</field>
+            <field name="partner_to">${object.receiver_id.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.receiver_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>${object.sender_id.company_id.name} - has paid transaction: ${object.announcement_id.name or ''}.</td>
+    		
+    	</tr>
+    </table>
+    <p>Hello ${object.receiver_id.name} !</p>
+	<p>
+		${object.announcement_id.partner_id.name} settled the transaction announcement ${object.announcement_id.name or ''}
+    </p>
+
+	<p>I answer now! <a href='http://selaudonien.wezer.org/marketplace/'>link marketplace</a></p>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+        
+        
+        <record id="action_email_notification_proposition_paid" model="ir.actions.server">
+			<field name="name">Marketplace Proposition Paid Action</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="condition">object.state=='paid'</field>
+			<field name="sequence">8</field>
+			<field name="type">ir.actions.server</field>
+			<field name="state">email</field>
+			<field name="template_id" ref="email_template_marketplace_proposition_paid"/>
+		</record>
+		
+		<record id="rule_email_notification_proposition_paid" model="base.action.rule">
+			<field name="name">Marketplace Proposition Paid Rule</field>
+			<field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+			<field name="sequence">0</field>
+			<field name="kind">on_write</field>
+			<field name="server_action_ids" eval="[(6,0,[ref('action_email_notification_proposition_paid')])]"/>
+		</record>
+		
+		
+		
+		
+		<!--[9] Email template & Cron [Unpaid Announcement] "I have not paid, payment reminder after 5 days"-->
+        <record forcecreate="True" id="ir_cron_unpaid_announcement_scheduler_action" model="ir.cron">
+            <field name="name">Unpaid Announcement Email Notification</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'marketplace.proposition'" name="model"/>
+            <field eval="'get_unpaid_announcement'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+		
+        <record id="email_template_marketplace_announcement_unpaid" model="email.template">
+            <field name="name">Marketplace Announcement Un-Paid Email Template</field>
+            <field name="email_from">${(object.sender_id.email or '')|safe}</field>
+            <field name="subject">Payment reminder for your transaction: ${object.announcement_id.name or ''}</field>
+            <field name="partner_to">${object.receiver_id.id}</field>
+            <field name="model_id" ref="marketplace.model_marketplace_proposition"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.receiver_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.create_uid.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>Payment reminder for your transaction: ${object.announcement_id.name or ''}.</td>
+    		
+    	</tr>
+    </table>
+    <p>Hello ${object.receiver_id.name} !</p>
+	<p>
+		You have not yet settled the transaction ${object.announcement_id.name or ''}
+    </p>
+
+	<p>I answer now!<a href='http://selaudonien.wezer.org/marketplace/'>link marketplace</a></p>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account</a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+        
+        
+        <!--CORE[1] Email template [After Creating a new user] Welcome Message-->
+        <record id="email_template_create_user" model="email.template">
+            <field name="name">Create User Email Template</field>
+            <field name="email_from">${(object.company_id.email or '')|safe}</field>
+            <field name="subject">Welcome on ${object.company_id.name}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.receiver_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>Welcome on ${object.company_id.name}.</td>
+    		
+    	</tr>
+    </table>
+    <p>Welcome ${object.partner_id.name} !</p>
+    <p>Post directly your requests on the marketplace: & Access to your profile</p>
+    <p>And now, let’s exchange!</p>
+    <br/>
+    <p>${object.company_id.name}</p>
+    <br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+        
+        
+        <record id="action_email_create_user" model="ir.actions.server">
+			<field name="name">Create User Action</field>
+			<field name="model_id" ref="base.model_res_users"/>
+			<field name="condition">True</field>
+			<field name="sequence">10</field>
+			<field name="type">ir.actions.server</field>
+			<field name="state">email</field>
+			<field name="template_id" ref="email_template_create_user"/>
+		</record>
+		
+		<record id="rule_email_notification_create_user" model="base.action.rule">
+			<field name="name">Create User Rule</field>
+			<field name="model_id" ref="base.model_res_users"/>
+			<field name="sequence">0</field>
+			<field name="kind">on_create</field>
+			<field name="server_action_ids" eval="[(6,0,[ref('action_email_create_user')])]"/>
+		</record>
+		
+		
+		<!--CORE[2] Reset Password Email template -->
+        <record id="email_template_reset_password" model="email.template">
+            <field name="name">Reinitialize your password</field>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="subject">Reinitialize your password in ${object.company_id.name}</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <!--field name="auto_delete" eval="True"/-->
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+	<table style="background-color:#E4F1DF;width:100%; height:81px; border:1px solid black;" >
+		<tr>
+			<td>
+    			<img alt="LOGO" src="data:image/png;base64,${object.partner_id.company_id.logo}" style="width: 150px;height: 80px;" />
+    		</td>
+    		<td></td>
+    		<td>Reinitialize your password in ${object.company_id.name}.</td>
+    	</tr>
+    </table>
+    
+    <p>Hello ${object.partner_id.name} !</p>
+	<p>You asked for a reinitialization of your password. To confirm your choice, please click on this link.</p>
+	<u><a href="${object.signup_url}">Special Link</a></u>
+	<p>
+		<span>Let’s go back for trades,</span>
+		<span>${object.company_id.name}</span>
+	</p>
+	
+	<br/>
+   	<br/>
+   	<center>
+   		<a href="http://selaudonien.wezer.org/marketplace/announcement_detail/refection-peinture-et-plancher-475">
+   			<button>go to the marketplace</button>
+   		</a>
+   	</center>
+   	<br/>
+	<div style="background-color:#E4F1DF; width:100%; height:80px; border:1px solid black;" >
+		<br/>
+		<h3 style="text-align:center;">I do not want to be notified anymore, i chnage it  <u><a href="http://selaudonien.wezer.org/marketplace/profile/edit/">into my account </a></u></h3>
+    	<br/>
+    	<p style="text-align:center;">WezerTM is a tool from Valuereux common good tools fabrics based on Odoo open source AGPL3 </p>
+    	<br/>
+    </div>
+</div>
+            ]]></field>
+        </record>
+		
+		
+    </data>
+</openerp>

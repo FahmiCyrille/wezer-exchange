@@ -25,7 +25,7 @@
     'version': '1.0',
     'description': """
         """,
-    'author': 'Author Name • WebByBrains <author@webbybrains.com>, Igor Krivonos <igor.krivonos@xpansa.com>',
+    'author': 'Valeureux for Wezer.org',
     'depends': [
         'auth_signup',
         'website',
