@@ -12,7 +12,7 @@
   "keywords": [
     "Weezer"
   ],
-  "author": "WebByBrains, Expansa",
+  "author": "WebByBrains, EValeureux",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-sass": "^0.8.1",

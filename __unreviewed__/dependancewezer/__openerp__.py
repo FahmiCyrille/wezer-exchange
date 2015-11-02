@@ -32,7 +32,6 @@
         'website_language_flags',
         'website_event',
         'website_forum'
-        'website_announcement_categrory_customization'
         ],
 
     # always loaded

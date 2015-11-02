@@ -2,7 +2,7 @@
 #
 #
 #    Website Marketplace
-#    Copyright (C) 2014 Xpansa Group (<http://xpansa.com>).
+#    Copyright (C) 2014 Valeureux Group (<http://Valeureux.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -29,7 +29,7 @@ Custom Theme
 Website Marketplace
 
         """,
-    'author': 'Author Name • WebByBrains <author@webbybrains.com>, Igor Krivonos <igor.krivonos@xpansa.com>',
+    'author': 'Valeureux for Wezer',
     'depends': [
         'website',
         'marketplace',
