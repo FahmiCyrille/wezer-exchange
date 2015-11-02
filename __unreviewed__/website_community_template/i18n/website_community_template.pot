@@ -168,6 +168,11 @@ msgid "Log in"
 msgstr ""
 
 #. module: website_community_template
+#: view:website:web.login
+msgid "Sign up"
+msgstr ""
+
+#. module: website_community_template
 #: view:website:website.layout
 msgid "Logout"
 msgstr ""
