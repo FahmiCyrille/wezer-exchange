@@ -49,6 +49,7 @@ Use your Odoo to manage communities.
         'portal',
         'website',
         'website_mail_group',
+        'community_send_notification',
     ],
     'data': [
         'data/community_data.xml',

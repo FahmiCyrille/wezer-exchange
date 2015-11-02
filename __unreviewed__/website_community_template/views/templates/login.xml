@@ -23,6 +23,7 @@
                                 <div class="checkbox">
                                     <button class="btn btn-success" type="submit">Log in</button>
                                 </div>
+
                                 <input type="hidden" name="redirect" value="/"/>
                             </form>
                             <p class="alert alert-danger mt32" t-if="error">

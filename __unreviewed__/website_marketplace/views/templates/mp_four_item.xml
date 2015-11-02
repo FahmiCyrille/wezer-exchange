@@ -8,17 +8,7 @@
                         <p class='titre_mod' t-esc='item.type' />
 
                         <div class="col-md-11 thumbnail espace_10 bigpicture want-announce" t-if="item.type == 'want'">
-                            <div>
-				<!-- Put Category Image in annoucement -->
-			      <t t-if="item.picture">
-				<span t-field="item.picture" t-field-options='{"widget": "image", "class": "img img-responsive" }'/>
-			      </t>
-			      <t t-if="not item.picture">
-				<span t-field="item.category_id.image" t-field-options='{"widget": "image", "class": "img img-responsive" }'/>
-			      </t>
-				<!-- Put Category Image in annoucement  -->
-
-			    </div>
+                            <div t-field="item.picture" t-field-options='{"widget": "image", "class": "img img-responsive" }'/>
                             <t t-if="request.session.uid">
                                <p class="text-muted mt8"><span t-esc="item.partner_id.name"/></p>
                             </t>

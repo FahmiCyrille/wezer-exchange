@@ -7,17 +7,7 @@
                 <div class="col-md-12 thumbnail mb32">
                     <div class="col-md-3 mt16">
                         <div class="col-md-12">
-                            <div class="row">
-				<!-- Put Category Image in annoucement  -->
-			      <t t-if="item.picture">
-				<span t-field="item.picture" t-field-options='{"widget": "image", "class": "img img-responsive thumbnail" }'/>
-				</t>
-				
-				<t t-if="not item.picture">
-				<span t-field="item.category_id.image" t-field-options='{"widget": "image", "class": "img img-responsive thumbnail" }'/>
-			      </t>
-				<!-- Put Category Image in annoucement -->
-			    </div>
+                            <div class="row" t-field="item.picture" t-field-options='{"widget": "image", "class": "img img-responsive thumbnail" }'/>
                             <t t-if="request.session.uid">
                                 <div class="row">
                                     <p class="text-muted mt8"><span t-esc="item.partner_id.name"/></p>

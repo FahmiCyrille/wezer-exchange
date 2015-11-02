@@ -54,8 +54,6 @@
                                             </t>
                                             <t t-if="bool(announcement.category_id) != False">
                                                 <span class="badge badge-primary" t-esc="announcement.category_id.name"/>
-						<!-- Put Image instead of name in category 
-						<span t-field="announcement.category_id.image" t-field-options='{"widget": "image"}'/>-->
                                             </t>
                                         </div>
                                         <label class="col-md-1 no-padding-top control-label" for="tags">Tags</label>
@@ -110,12 +108,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="col-md-12">
-					<t t-if="announcement.picture">
-		                            <span t-field="announcement.picture" t-field-options='{"widget": "image"}'/>
-					</t>
-					<t t-if="not announcement.picture">
-		                            <span t-field="announcement.category_id.image" t-field-options='{"widget": "image"}'/>
-					</t>
+                                    <span t-field="announcement.picture" t-field-options='{"widget": "image"}'/>
                                 </div>
                                 <div>
                                     <t t-if="announcement.state == 'draft'">
