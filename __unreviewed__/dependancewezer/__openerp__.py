@@ -29,6 +29,7 @@
         'website_membership_users',
         'website_marketplace',
         'website_last_articles_snippet',
+        'website_announcement_category_customization',
         'website_language_flags',
         'website_event',
         'website_forum'

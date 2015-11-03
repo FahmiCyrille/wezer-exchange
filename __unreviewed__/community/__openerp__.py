@@ -46,6 +46,7 @@ Use your Odoo to manage communities.
         'mail_holacracy',
         'membership',
         'membership_users',
+        'community_send_notification',
         'portal',
         'website',
         'website_mail_group',
